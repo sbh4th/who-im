@@ -129,6 +129,8 @@ lincom lnRII, eform cformat(%4.3f)
 stata(s_estw, data.in=datw)
 ```
 ## SII/RII in R
+
+### Unweighted
 In R we can use the basic `glm` function and the `marginaleffects` package to pretty much the exact same thing. See the extensive [website](https://marginaleffects.com/) for direct comparisons between R and Stata, but `marginaleffects` also allows many different flavors of standard errors (clustered, heteroskedastic, etc.). Below I use the "HC1" errors that are most similar to Stata's `robust` option. 
 
 
@@ -150,7 +152,35 @@ sii %>% bind_rows(rii) %>%
   add_header_above(c(" " = 1, 
                      "Slope and Relative Index of Inequality" = 3)) %>%
   kable_classic(html_font = "Helvetica", full_width = F) %>%
-  footnote(general = "Robust standard errors")
+  footnote(general = "Unweighted data with robust standard errors")
 ```
 
 Overall the point estimates are identical to those from the weighted or unweighted analyses done using Stata, and the standard errors are nearly identical to those from the individual-level analysis using Stata. 
+
+### Weighted
+R doesn't have a simple way of running the weighted GLM for a non-linear model, but we can feed the `glm` function a formula that includes the events and nonevents as a function of the rank variable, which will produce pretty similar estimates as we got from Stata.
+
+```{r sii-estw, message = F}
+datw <- datw %>% mutate(nonevents = pop - events)
+
+modw <- glm(formula = cbind(events, nonevents) ~ rank, 
+  weights = pop, data = datw, 
+  family = binomial("logit"))
+summary(modw)
+
+sii <- avg_comparisons(modw, comparison = function(hi, lo) 
+  hi - lo, vcov = "HC1")
+rii <- avg_comparisons(modw, comparison = function(hi, lo) 
+  hi / lo, vcov = "HC1")
+
+sii %>% bind_rows(rii) %>%
+  add_column(measure = c("SII", "RII")) %>%
+  select(measure, estimate, conf.low, conf.high) %>%
+  kbl(digits = 2, escape = F,
+      col.names = c("Measure", "Estimate", "95% LL", "95% UL")) %>%
+  add_header_above(c(" " = 1, 
+                     "Slope and Relative Index of Inequality" = 3)) %>%
+  kable_classic(html_font = "Helvetica", full_width = F) %>%
+  footnote(general = "Weighted data with robust standard errors")
+```
+These estiamtes are quite similar to those produce using Stata's weighted GLM model. 
