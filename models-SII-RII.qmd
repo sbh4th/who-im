@@ -183,4 +183,4 @@ sii %>% bind_rows(rii) %>%
   kable_classic(html_font = "Helvetica", full_width = F) %>%
   footnote(general = "Weighted data with robust standard errors")
 ```
-These estiamtes are quite similar to those produce using Stata's weighted GLM model. 
+These estimates are quite similar to those produce using Stata's weighted GLM model. 
