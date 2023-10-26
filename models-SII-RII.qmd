@@ -1,7 +1,156 @@
 ---
-title: "SII Models"
+title: "Rank-based Inequality Models"
 author: Sam Harper
 date: today
 format: html
 ---
+## Setup
+First let's simulate some data. The code below will create a dataset of 3500 observations with 5 quintiles of SEP and a binary outcome (e.g., infant mortality rates). The quintiles have different population sizes to simulate weighted data. 
 
+```{r setup, message = F}
+# load packages
+library(tidyverse)
+library(kableExtra)
+library(marginaleffects)
+```
+
+```{r sim}
+set.seed(4861)
+q1pop <- 1000
+q1r <- rbinom(q1pop, size = 1, prob = 100/1000)
+
+q2pop <- 850
+q2r <- rbinom(q2pop, size = 1, prob = 85/1000)
+
+q3pop <- 700
+q3r <- rbinom(q3pop, size = 1, prob = 75/1000)
+
+q4pop <- 550
+q4r <- rbinom(q4pop, size = 1, prob = 60/1000)
+
+q5pop <- 400
+q5r <- rbinom(q5pop, size = 1, prob = 50/1000)
+
+dat <- tibble(
+  q = rep(c(1,2,3,4,5), c(1000,850,700,550,400)),
+  y = c(q1r, q2r, q3r, q4r, q5r)
+)
+```
+
+## Descriptives
+A table of outcome rates by quintile looks like this:
+```{r t1}
+datg <- dat %>% group_by(q) %>% 
+  summarize(events = sum(y),
+            mean_y = 1000*mean(y),
+            pop = n())
+
+datg %>%
+  kbl(digits = 1, 
+      col.names = c("Quintile", "Events",
+        "Rate per 1000", "Pop")) %>%
+  kable_styling()
+```
+
+And a simple bar chart and linear fit show that the outcome decreases as one moves up the quintiles.
+```{r f1, message = F}
+datg %>% 
+  ggplot(aes(x = q, y = mean_y)) + 
+  geom_col() + geom_smooth(method = "lm") + 
+  theme_classic() +
+  labs(x = "Quintile of SEP", y = "Rate per 1000")
+```
+
+Okay, now let's create a ranking variable for the SII/RII based on the individual-level data. Since we have a categorical measure of SEP, we have to use the average of the ranks for each group. The resulting data looks like this:
+```{r data}
+
+dat <- dat %>% arrange(q) %>%
+  mutate(ppop = 1/length(q),
+    rank = (cumsum(ppop) - 0.5 * ppop)/sum(ppop)) %>%
+  group_by(q) %>%
+  mutate(avrank = mean(rank)) %>%
+  ungroup()
+
+kable(head(dat, n=10), digits=3) %>%
+  kable_styling()
+```
+
+## SII/RII in Stata
+To generate the estimates in Stata from R, we need the RStata package and to tell the system where to find the Stata executable file.
+```{r st_setup}
+library(RStata)
+options("RStata.StataVersion" = 16)
+options("RStata.StataPath"= '/Applications/Stata/StataMP.app/Contents/MacOS/stata-mp')
+```
+
+To estimate the SII/RII we use the `glm` function to estimate the non-linear regression, and the `margins` command to generate the SII and RII based on the predicted outcomes at the minimum and maximum of the SEP scale. 
+
+### Unweighted
+```{r st_u}
+s_est <- '
+glm y avrank, link(logit) family(binomial) robust nolog cformat(%4.3f)
+margins, at(avrank=(0 1)) post
+nlcom (SII: (_b[2._at] - _b[1._at])), cformat(%4.3f)
+* symmetric 95%CIs using nlcom for ratio
+nlcom (RII: _b[2._at] / _b[1._at]), cformat(%4.3f)
+
+* use the lnRII instead and then exponentiate
+nlcom (lnRII: ln(_b[2._at] / _b[1._at])), post
+
+* should be non-symmetric
+lincom lnRII, eform cformat(%4.3f)
+'
+stata(s_est, data.in=dat)
+```
+
+### Weighted
+First create the ranking variable based on the group population
+```{r datw, message = F}
+datw <- datg %>% arrange(q) %>%
+  mutate(ppop = pop / sum(pop),
+    rank = (cumsum(ppop) - 0.5 * ppop)/sum(ppop)) 
+```
+
+Now for the weighted regression in Stata
+```{r st_w}
+s_estw <- '
+glm events rank, family(binomial pop) link(logit) robust nolog cformat(%4.3f)
+margins, at(rank=(0 1)) post expression(predict(mu)/pop)
+nlcom (SII: (_b[2._at] - _b[1._at])), cformat(%4.3f)
+* symmetric 95%CIs using nlcom for ratio
+nlcom (RII: _b[2._at] / _b[1._at]), cformat(%4.3f)
+
+* use the lnRII instead and then exponentiate
+nlcom (lnRII: ln(_b[2._at] / _b[1._at])), post
+
+* should be non-symmetric
+lincom lnRII, eform cformat(%4.3f)
+'
+stata(s_estw, data.in=datw)
+```
+## SII/RII in R
+In R we can use the basic `glm` function and the `marginaleffects` package to pretty much the exact same thing. See the extensive [website](https://marginaleffects.com/) for direct comparisons between R and Stata, but `marginaleffects` also allows many different flavors of standard errors (clustered, heteroskedastic, etc.). Below I use the "HC1" errors that are most similar to Stata's `robust` option. 
+
+
+```{r sii-est, message = F}
+mod <- glm(y ~ avrank, data = dat, 
+           family = "binomial")
+summary(mod)
+
+sii <- avg_comparisons(mod, comparison = function(hi, lo) 
+  hi - lo, vcov = "HC1")
+rii <- avg_comparisons(mod, comparison = function(hi, lo) 
+  hi / lo, vcov = "HC1")
+
+sii %>% bind_rows(rii) %>%
+  add_column(measure = c("SII", "RII")) %>%
+  select(measure, estimate, conf.low, conf.high) %>%
+  kbl(digits = 2, escape = F,
+      col.names = c("Measure", "Estimate", "95% LL", "95% UL")) %>%
+  add_header_above(c(" " = 1, 
+                     "Slope and Relative Index of Inequality" = 3)) %>%
+  kable_classic(html_font = "Helvetica", full_width = F) %>%
+  footnote(general = "Robust standard errors")
+```
+
+Overall the point estimates are identical to those from the weighted or unweighted analyses done using Stata, and the standard errors are nearly identical to those from the individual-level analysis using Stata. 
