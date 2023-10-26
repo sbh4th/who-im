@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.280">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Sam Harper">
+<meta name="dcterms.date" content="2023-10-26">
+
+<title>Rank-based Inequality Models</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="models-SII-RII_files/libs/clipboard/clipboard.min.js"></script>
+<script src="models-SII-RII_files/libs/quarto-html/quarto.js"></script>
+<script src="models-SII-RII_files/libs/quarto-html/popper.min.js"></script>
+<script src="models-SII-RII_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="models-SII-RII_files/libs/quarto-html/anchor.min.js"></script>
+<link href="models-SII-RII_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="models-SII-RII_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="models-SII-RII_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="models-SII-RII_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="models-SII-RII_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="models-SII-RII_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="models-SII-RII_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Rank-based Inequality Models</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Sam Harper </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 26, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>First let’s simulate some data. The code below will create a dataset of 3500 observations with 5 quintiles of SEP and a binary outcome (e.g., infant mortality rates). The quintiles have different population sizes to simulate weighted data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4861</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>q1pop <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>q1r <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(q1pop, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="dv">100</span><span class="sc">/</span><span class="dv">1000</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>q2pop <span class="ot">&lt;-</span> <span class="dv">850</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>q2r <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(q2pop, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="dv">85</span><span class="sc">/</span><span class="dv">1000</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>q3pop <span class="ot">&lt;-</span> <span class="dv">700</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>q3r <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(q3pop, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="dv">75</span><span class="sc">/</span><span class="dv">1000</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>q4pop <span class="ot">&lt;-</span> <span class="dv">550</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>q4r <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(q4pop, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="dv">60</span><span class="sc">/</span><span class="dv">1000</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>q5pop <span class="ot">&lt;-</span> <span class="dv">400</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>q5r <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(q5pop, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="dv">50</span><span class="sc">/</span><span class="dv">1000</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">q =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>), <span class="fu">c</span>(<span class="dv">1000</span>,<span class="dv">850</span>,<span class="dv">700</span>,<span class="dv">550</span>,<span class="dv">400</span>)),</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(q1r, q2r, q3r, q4r, q5r)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="descriptives" class="level2">
+<h2 class="anchored" data-anchor-id="descriptives">Descriptives</h2>
+<p>A table of outcome rates by quintile looks like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>datg <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(q) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">events =</span> <span class="fu">sum</span>(y),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_y =</span> <span class="dv">1000</span><span class="sc">*</span><span class="fu">mean</span>(y),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">pop =</span> <span class="fu">n</span>())</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>datg <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">1</span>, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Quintile"</span>, <span class="st">"Events"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Rate per 1000"</span>, <span class="st">"Pop"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;"> Quintile </th>
+   <th style="text-align:right;"> Events </th>
+   <th style="text-align:right;"> Rate per 1000 </th>
+   <th style="text-align:right;"> Pop </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 97 </td>
+   <td style="text-align:right;"> 97.0 </td>
+   <td style="text-align:right;"> 1000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> 69.4 </td>
+   <td style="text-align:right;"> 850 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 46 </td>
+   <td style="text-align:right;"> 65.7 </td>
+   <td style="text-align:right;"> 700 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 40 </td>
+   <td style="text-align:right;"> 72.7 </td>
+   <td style="text-align:right;"> 550 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 45.0 </td>
+   <td style="text-align:right;"> 400 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>And a simple bar chart and linear fit show that the outcome decreases as one moves up the quintiles.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>datg <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> q, <span class="at">y =</span> mean_y)) <span class="sc">+</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Quintile of SEP"</span>, <span class="at">y =</span> <span class="st">"Rate per 1000"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="models-SII-RII_files/figure-html/f1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Okay, now let’s create a ranking variable for the SII/RII based on the individual-level data. Since we have a categorical measure of SEP, we have to use the average of the ranks for each group. The resulting data looks like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(q) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ppop =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">length</span>(q),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">rank =</span> (<span class="fu">cumsum</span>(ppop) <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> ppop)<span class="sc">/</span><span class="fu">sum</span>(ppop)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(q) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avrank =</span> <span class="fu">mean</span>(rank)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(dat, <span class="at">n=</span><span class="dv">10</span>), <span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;"> q </th>
+   <th style="text-align:right;"> y </th>
+   <th style="text-align:right;"> ppop </th>
+   <th style="text-align:right;"> rank </th>
+   <th style="text-align:right;"> avrank </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.000 </td>
+   <td style="text-align:right;"> 0.143 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.000 </td>
+   <td style="text-align:right;"> 0.143 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.001 </td>
+   <td style="text-align:right;"> 0.143 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.001 </td>
+   <td style="text-align:right;"> 0.143 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.001 </td>
+   <td style="text-align:right;"> 0.143 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.002 </td>
+   <td style="text-align:right;"> 0.143 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.002 </td>
+   <td style="text-align:right;"> 0.143 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.002 </td>
+   <td style="text-align:right;"> 0.143 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.002 </td>
+   <td style="text-align:right;"> 0.143 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.003 </td>
+   <td style="text-align:right;"> 0.143 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="siirii-in-stata" class="level2">
+<h2 class="anchored" data-anchor-id="siirii-in-stata">SII/RII in Stata</h2>
+<p>To generate the estimates in Stata from R, we need the RStata package and to tell the system where to find the Stata executable file.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RStata)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">"RStata.StataVersion"</span> <span class="ot">=</span> <span class="dv">16</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">"RStata.StataPath"</span><span class="ot">=</span> <span class="st">'/Applications/Stata/StataMP.app/Contents/MacOS/stata-mp'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To estimate the SII/RII we use the <code>glm</code> function to estimate the non-linear regression, and the <code>margins</code> command to generate the SII and RII based on the predicted outcomes at the minimum and maximum of the SEP scale.</p>
+<section id="unweighted" class="level3">
+<h3 class="anchored" data-anchor-id="unweighted">Unweighted</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>s_est <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="st">glm y avrank, link(logit) family(binomial) robust nolog cformat(%4.3f)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">margins, at(avrank=(0 1)) post</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">nlcom (SII: (_b[2._at] - _b[1._at])), cformat(%4.3f)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">* symmetric 95%CIs using nlcom for ratio</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">nlcom (RII: _b[2._at] / _b[1._at]), cformat(%4.3f)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">* use the lnRII instead and then exponentiate</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">nlcom (lnRII: ln(_b[2._at] / _b[1._at])), post</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">* should be non-symmetric</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="st">lincom lnRII, eform cformat(%4.3f)</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">stata</span>(s_est, <span class="at">data.in=</span>dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>. 
+. glm y avrank, link(logit) family(binomial) robust nolog cformat(%4.3f)
+
+Generalized linear models                         Number of obs   =      3,500
+Optimization     : ML                             Residual df     =      3,498
+                                                  Scale parameter =          1
+Deviance         =  1841.789772                   (1/df) Deviance =   .5265265
+Pearson          =  3501.348343                   (1/df) Pearson  =   1.000957
+
+Variance function: V(u) = u*(1-u)                 [Bernoulli]
+Link function    : g(u) = ln(u/(1-u))             [Logit]
+
+                                                  AIC             =   .5273685
+Log pseudolikelihood = -920.8948859               BIC             =   -26703.7
+
+------------------------------------------------------------------------------
+             |               Robust
+           y |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      avrank |     -0.744      0.236    -3.15   0.002       -1.207      -0.281
+       _cons |     -2.169      0.124   -17.44   0.000       -2.413      -1.925
+------------------------------------------------------------------------------
+. margins, at(avrank=(0 1)) post
+
+Adjusted predictions                            Number of obs     =      3,500
+Model VCE    : Robust
+
+Expression   : Predicted mean y, predict()
+
+1._at        : avrank          =           0
+
+2._at        : avrank          =           1
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         _at |
+          1  |   .1025659   .0114498     8.96   0.000     .0801247    .1250072
+          2  |   .0515011   .0070809     7.27   0.000     .0376229    .0653793
+------------------------------------------------------------------------------
+. nlcom (SII: (_b[2._at] - _b[1._at])), cformat(%4.3f)
+
+         SII:  (_b[2._at] - _b[1._at])
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         SII |     -0.051      0.016    -3.12   0.002       -0.083      -0.019
+------------------------------------------------------------------------------
+. * symmetric 95%CIs using nlcom for ratio
+. nlcom (RII: _b[2._at] / _b[1._at]), cformat(%4.3f)
+
+         RII:  _b[2._at] / _b[1._at]
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         RII |      0.502      0.110     4.58   0.000        0.287       0.717
+------------------------------------------------------------------------------
+. 
+. * use the lnRII instead and then exponentiate
+. nlcom (lnRII: ln(_b[2._at] / _b[1._at])), post
+
+       lnRII:  ln(_b[2._at] / _b[1._at])
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lnRII |  -.6889027    .218547    -3.15   0.002    -1.117247   -.2605584
+------------------------------------------------------------------------------
+. 
+. * should be non-symmetric
+. lincom lnRII, eform cformat(%4.3f)
+
+ ( 1)  lnRII = 0
+
+------------------------------------------------------------------------------
+             |     exp(b)   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |      0.502      0.110    -3.15   0.002        0.327       0.771
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+</section>
+<section id="weighted" class="level3">
+<h3 class="anchored" data-anchor-id="weighted">Weighted</h3>
+<p>First create the ranking variable based on the group population</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>datw <span class="ot">&lt;-</span> datg <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(q) <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ppop =</span> pop <span class="sc">/</span> <span class="fu">sum</span>(pop),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">rank =</span> (<span class="fu">cumsum</span>(ppop) <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> ppop)<span class="sc">/</span><span class="fu">sum</span>(ppop)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now for the weighted regression in Stata</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>s_estw <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="st">glm events rank, family(binomial pop) link(logit) robust nolog cformat(%4.3f)</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">margins, at(rank=(0 1)) post expression(predict(mu)/pop)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">nlcom (SII: (_b[2._at] - _b[1._at])), cformat(%4.3f)</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="st">* symmetric 95%CIs using nlcom for ratio</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="st">nlcom (RII: _b[2._at] / _b[1._at]), cformat(%4.3f)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">* use the lnRII instead and then exponentiate</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">nlcom (lnRII: ln(_b[2._at] / _b[1._at])), post</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">* should be non-symmetric</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="st">lincom lnRII, eform cformat(%4.3f)</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">stata</span>(s_estw, <span class="at">data.in=</span>datw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>. 
+. glm events rank, family(binomial pop) link(logit) robust nolog cformat(%4.3f)
+
+Generalized linear models                         Number of obs   =          5
+Optimization     : ML                             Residual df     =          3
+                                                  Scale parameter =          1
+Deviance         =  3.422320699                   (1/df) Deviance =   1.140774
+Pearson          =  3.484972657                   (1/df) Pearson  =   1.161658
+
+Variance function: V(u) = u*(1-u/pop)             [Binomial]
+Link function    : g(u) = ln(u/(pop-u))           [Logit]
+
+                                                  AIC             =   7.066007
+Log pseudolikelihood = -15.66501761               BIC             =  -1.405993
+
+------------------------------------------------------------------------------
+             |               Robust
+      events |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        rank |     -0.744      0.208    -3.57   0.000       -1.153      -0.336
+       _cons |     -2.169      0.082   -26.44   0.000       -2.330      -2.008
+------------------------------------------------------------------------------
+. margins, at(rank=(0 1)) post expression(predict(mu)/pop)
+
+Adjusted predictions                            Number of obs     =          5
+Model VCE    : Robust
+
+Expression   : predict(mu)/pop
+
+1._at        : rank            =           0
+
+2._at        : rank            =           1
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         _at |
+          1  |   .1025659     .00755    13.58   0.000     .0877681    .1173637
+          2  |   .0515011   .0072788     7.08   0.000      .037235    .0657672
+------------------------------------------------------------------------------
+. nlcom (SII: (_b[2._at] - _b[1._at])), cformat(%4.3f)
+
+         SII:  (_b[2._at] - _b[1._at])
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         SII |     -0.051      0.013    -3.86   0.000       -0.077      -0.025
+------------------------------------------------------------------------------
+. * symmetric 95%CIs using nlcom for ratio
+. nlcom (RII: _b[2._at] / _b[1._at]), cformat(%4.3f)
+
+         RII:  _b[2._at] / _b[1._at]
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         RII |      0.502      0.098     5.15   0.000        0.311       0.693
+------------------------------------------------------------------------------
+. 
+. * use the lnRII instead and then exponentiate
+. nlcom (lnRII: ln(_b[2._at] / _b[1._at])), post
+
+       lnRII:  ln(_b[2._at] / _b[1._at])
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lnRII |  -.6889027   .1943208    -3.55   0.000    -1.069764   -.3080409
+------------------------------------------------------------------------------
+. 
+. * should be non-symmetric
+. lincom lnRII, eform cformat(%4.3f)
+
+ ( 1)  lnRII = 0
+
+------------------------------------------------------------------------------
+             |     exp(b)   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         (1) |      0.502      0.098    -3.55   0.000        0.343       0.735
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="siirii-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="siirii-in-r">SII/RII in R</h2>
+<section id="unweighted-1" class="level3">
+<h3 class="anchored" data-anchor-id="unweighted-1">Unweighted</h3>
+<p>In R we can use the basic <code>glm</code> function and the <code>marginaleffects</code> package to pretty much the exact same thing. See the extensive <a href="https://marginaleffects.com/">website</a> for direct comparisons between R and Stata, but <code>marginaleffects</code> also allows many different flavors of standard errors (clustered, heteroskedastic, etc.). Below I use the “HC1” errors that are most similar to Stata’s <code>robust</code> option.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> avrank, <span class="at">data =</span> dat, </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ avrank, family = "binomial", data = dat)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.4423  -0.4423  -0.3719  -0.3487   2.4190  
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -2.1690     0.1235 -17.559  &lt; 2e-16 ***
+avrank       -0.7442     0.2338  -3.184  0.00145 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1852.1  on 3499  degrees of freedom
+Residual deviance: 1841.8  on 3498  degrees of freedom
+AIC: 1845.8
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sii <span class="ot">&lt;-</span> <span class="fu">avg_comparisons</span>(mod, <span class="at">comparison =</span> <span class="cf">function</span>(hi, lo) </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  hi <span class="sc">-</span> lo, <span class="at">vcov =</span> <span class="st">"HC1"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>rii <span class="ot">&lt;-</span> <span class="fu">avg_comparisons</span>(mod, <span class="at">comparison =</span> <span class="cf">function</span>(hi, lo) </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  hi <span class="sc">/</span> lo, <span class="at">vcov =</span> <span class="st">"HC1"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>sii <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>(rii) <span class="sc">%&gt;%</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">measure =</span> <span class="fu">c</span>(<span class="st">"SII"</span>, <span class="st">"RII"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(measure, estimate, conf.low, conf.high) <span class="sc">%&gt;%</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">2</span>, <span class="at">escape =</span> F,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Measure"</span>, <span class="st">"Estimate"</span>, <span class="st">"95% LL"</span>, <span class="st">"95% UL"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_header_above</span>(<span class="fu">c</span>(<span class="st">" "</span> <span class="ot">=</span> <span class="dv">1</span>, </span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Slope and Relative Index of Inequality"</span> <span class="ot">=</span> <span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">html_font =</span> <span class="st">"Helvetica"</span>, <span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">footnote</span>(<span class="at">general =</span> <span class="st">"Unweighted data with robust standard errors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class=" lightable-classic" style="font-family: Helvetica; width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
+ <thead>
+<tr>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="1"></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="3"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Slope and Relative Index of Inequality</div></th>
+</tr>
+  <tr>
+   <th style="text-align:left;"> Measure </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> 95% LL </th>
+   <th style="text-align:right;"> 95% UL </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> SII </td>
+   <td style="text-align:right;"> -0.05 </td>
+   <td style="text-align:right;"> -0.08 </td>
+   <td style="text-align:right;"> -0.02 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RII </td>
+   <td style="text-align:right;"> 0.50 </td>
+   <td style="text-align:right;"> 0.29 </td>
+   <td style="text-align:right;"> 0.72 </td>
+  </tr>
+</tbody>
+<tfoot>
+<tr><td style="padding: 0; " colspan="100%"><span style="font-style: italic;">Note: </span></td></tr>
+<tr><td style="padding: 0; " colspan="100%">
+<sup></sup> Unweighted data with robust standard errors</td></tr>
+</tfoot>
+</table>
+
+</div>
+</div>
+<p>Overall the point estimates are identical to those from the weighted or unweighted analyses done using Stata, and the standard errors are nearly identical to those from the individual-level analysis using Stata.</p>
+</section>
+<section id="weighted-1" class="level3">
+<h3 class="anchored" data-anchor-id="weighted-1">Weighted</h3>
+<p>R doesn’t have a simple way of running the weighted GLM for a non-linear model, but we can feed the <code>glm</code> function a formula that includes the events and nonevents as a function of the rank variable, which will produce pretty similar estimates as we got from Stata.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>datw <span class="ot">&lt;-</span> datw <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">nonevents =</span> pop <span class="sc">-</span> events)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>modw <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> <span class="fu">cbind</span>(events, nonevents) <span class="sc">~</span> rank, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> pop, <span class="at">data =</span> datw, </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = cbind(events, nonevents) ~ rank, family = binomial("logit"), 
+    data = datw, weights = pop)
+
+Deviance Residuals: 
+      1        2        3        4        5  
+ 11.932  -27.083   -2.332   31.982  -14.898  
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -2.162870   0.004141  -522.3   &lt;2e-16 ***
+rank        -0.760737   0.009024   -84.3   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 9481.7  on 4  degrees of freedom
+Residual deviance: 2126.1  on 3  degrees of freedom
+AIC: 22210
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sii <span class="ot">&lt;-</span> <span class="fu">avg_comparisons</span>(modw, <span class="at">comparison =</span> <span class="cf">function</span>(hi, lo) </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  hi <span class="sc">-</span> lo, <span class="at">vcov =</span> <span class="st">"HC1"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>rii <span class="ot">&lt;-</span> <span class="fu">avg_comparisons</span>(modw, <span class="at">comparison =</span> <span class="cf">function</span>(hi, lo) </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  hi <span class="sc">/</span> lo, <span class="at">vcov =</span> <span class="st">"HC1"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>sii <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>(rii) <span class="sc">%&gt;%</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">measure =</span> <span class="fu">c</span>(<span class="st">"SII"</span>, <span class="st">"RII"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(measure, estimate, conf.low, conf.high) <span class="sc">%&gt;%</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">2</span>, <span class="at">escape =</span> F,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Measure"</span>, <span class="st">"Estimate"</span>, <span class="st">"95% LL"</span>, <span class="st">"95% UL"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_header_above</span>(<span class="fu">c</span>(<span class="st">" "</span> <span class="ot">=</span> <span class="dv">1</span>, </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Slope and Relative Index of Inequality"</span> <span class="ot">=</span> <span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">html_font =</span> <span class="st">"Helvetica"</span>, <span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">footnote</span>(<span class="at">general =</span> <span class="st">"Weighted data with robust standard errors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class=" lightable-classic" style="font-family: Helvetica; width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
+ <thead>
+<tr>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="1"></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="3"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Slope and Relative Index of Inequality</div></th>
+</tr>
+  <tr>
+   <th style="text-align:left;"> Measure </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> 95% LL </th>
+   <th style="text-align:right;"> 95% UL </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> SII </td>
+   <td style="text-align:right;"> -0.05 </td>
+   <td style="text-align:right;"> -0.08 </td>
+   <td style="text-align:right;"> -0.02 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RII </td>
+   <td style="text-align:right;"> 0.49 </td>
+   <td style="text-align:right;"> 0.29 </td>
+   <td style="text-align:right;"> 0.70 </td>
+  </tr>
+</tbody>
+<tfoot>
+<tr><td style="padding: 0; " colspan="100%"><span style="font-style: italic;">Note: </span></td></tr>
+<tr><td style="padding: 0; " colspan="100%">
+<sup></sup> Weighted data with robust standard errors</td></tr>
+</tfoot>
+</table>
+
+</div>
+</div>
+<p>These estiamtes are quite similar to those produce using Stata’s weighted GLM model.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
